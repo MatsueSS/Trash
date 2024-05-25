@@ -1,0 +1,4 @@
+/home/michael/build-matrixgui-First-Debug/CMakeFiles/matrixgui.dir
+/home/michael/build-matrixgui-First-Debug/CMakeFiles/edit_cache.dir
+/home/michael/build-matrixgui-First-Debug/CMakeFiles/rebuild_cache.dir
+/home/michael/build-matrixgui-First-Debug/CMakeFiles/matrixgui_autogen.dir
