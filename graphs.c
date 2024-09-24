@@ -11,27 +11,30 @@ struct Vector{
     struct Graph** graph;
 };
 
-struct Graph{
+struct Graph{ 
     char name[100];
     struct Vector* nodes;
 };
 
 void iniciateVector(struct Vector* vector)
 {
+    if(vector == NULL) { vector = (struct Vector*)malloc(sizeof(struct Vector)); vector->graph = NULL; }
+
     if(vector->graph == NULL){
         vector->capacity = 10;
         vector->length = 0;
-        vector->graph = (struct Graph**)malloc(sizeof(struct Graph)*vector->capacity);
+        vector->graph = (struct Graph**)malloc(sizeof(struct Graph*)*(vector->capacity));
     }
     else{
-        vector->graph = (struct Graph**)realloc(vector->graph, sizeof(struct Graph)*vector->capacity);
+        vector->graph = (struct Graph**)realloc(vector->graph, sizeof(struct Graph*)*vector->capacity);
         vector->capacity += 10;
     }
 }
 
 void add_node(struct Vector* vector, struct Graph* node)
 {
-    if(vector->graph == NULL || vector->length == vector->capacity) iniciateVector(vector);
+    if(vector == NULL) iniciateVector(vector);
+    if(vector->length == vector->capacity) iniciateVector(vector);
     vector->graph[vector->length++] = node;
 }
 
@@ -45,16 +48,21 @@ void add_edge(struct Graph* node1, struct Graph* node2)
 
 int main(void)
 {
-    struct Vector* tree = NULL;
+    struct Vector* tree = (struct Vector*)malloc(sizeof(struct Vector));
+    tree->graph = NULL;
     iniciateVector(tree);
 
     struct Graph* node1 = (struct Graph*)malloc(sizeof(struct Graph));
     struct Graph* node2 = (struct Graph*)malloc(sizeof(struct Graph));
     struct Graph* node3 = (struct Graph*)malloc(sizeof(struct Graph));
 
-    strcat(node1->name, "Первая вершина");
-    strcat(node2->name, "Вторая вершина");
-    strcat(node3->name, "Третья вершина");
+    node1->nodes = NULL;
+    node2->nodes = NULL;
+    node3->nodes = NULL;
+
+    strcpy(node1->name, "Первая вершина");
+    strcpy(node2->name, "Вторая вершина");
+    strcpy(node3->name, "Третья вершина");
 
     add_node(tree, node1);
     add_node(tree, node2);
