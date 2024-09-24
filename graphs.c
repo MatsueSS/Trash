@@ -1,73 +1,63 @@
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
-struct Graph;
+const int length = 3;
 
-struct Vector{
-    int length;
-    int capacity;
-    struct Graph** graph;
-};
-
-struct Graph{ 
+struct Node{
+    int count;
     char name[100];
-    struct Vector* nodes;
+    struct Node* array[length];
 };
 
-void iniciateVector(struct Vector* vector)
-{
-    if(vector == NULL) { vector = (struct Vector*)malloc(sizeof(struct Vector)); vector->graph = NULL; }
+struct Graph{
+    int count;
+    struct Node* array[length];
+};
 
-    if(vector->graph == NULL){
-        vector->capacity = 10;
-        vector->length = 0;
-        vector->graph = (struct Graph**)malloc(sizeof(struct Graph*)*(vector->capacity));
-    }
-    else{
-        vector->graph = (struct Graph**)realloc(vector->graph, sizeof(struct Graph*)*vector->capacity);
-        vector->capacity += 10;
-    }
+struct Graph* __init_Graph(struct Graph* graph)
+{
+    if(graph == NULL) { graph = (struct Graph*)malloc(sizeof(struct Graph)); graph->count = 0; }
+    return graph;
 }
 
-void add_node(struct Vector* vector, struct Graph* node)
+struct Node* __init_Node(struct Node* node, const char* nname)
 {
-    if(vector == NULL) iniciateVector(vector);
-    if(vector->length == vector->capacity) iniciateVector(vector);
-    vector->graph[vector->length++] = node;
+    if(node == NULL) { node = (struct Node*)malloc(sizeof(struct Node)); node->count = 0; strcpy(node->name, nname); }
+    return node;
 }
 
-void add_edge(struct Graph* node1, struct Graph* node2)
+void add_node(struct Graph* graph, struct Node* node)
 {
-    if(node1->nodes == NULL) iniciateVector(node1->nodes);
-    if(node2->nodes == NULL) iniciateVector(node2->nodes);
-    add_node(node1->nodes, node2);
-    add_node(node2->nodes, node1);
+    if(graph == NULL) __init_Graph(graph);
+    if(graph->count <= length) graph->array[graph->count++] = node;
+}
+
+void add_edge(struct Node* node1, struct Node* node2)
+{
+    if(node1 != NULL && node2 != NULL)
+    {
+        node1->array[node1->count++] = node2;
+        node2->array[node2->count++] = node1;
+    }
 }
 
 int main(void)
 {
-    struct Vector* tree = (struct Vector*)malloc(sizeof(struct Vector));
-    tree->graph = NULL;
-    iniciateVector(tree);
+    struct Graph* graph = NULL;
+    graph = __init_Graph(graph);
 
-    struct Graph* node1 = (struct Graph*)malloc(sizeof(struct Graph));
-    struct Graph* node2 = (struct Graph*)malloc(sizeof(struct Graph));
-    struct Graph* node3 = (struct Graph*)malloc(sizeof(struct Graph));
+    struct Node *node1 = NULL, *node2 = NULL, *node3 = NULL;
+    node1 = __init_Node(node1, "Первая вершина");
+    node2 = __init_Node(node2, "Вторая вершина");
+    node3 = __init_Node(node3, "Третья вершина");
 
-    node1->nodes = NULL;
-    node2->nodes = NULL;
-    node3->nodes = NULL;
-
-    strcpy(node1->name, "Первая вершина");
-    strcpy(node2->name, "Вторая вершина");
-    strcpy(node3->name, "Третья вершина");
-
-    add_node(tree, node1);
-    add_node(tree, node2);
-    add_node(tree, node3);
+    add_node(graph, node1);
+    add_node(graph, node2);
+    add_node(graph, node3);
 
     add_edge(node1, node2);
-    add_edge(node2, node3);
+    add_edge(node2, node3);  
+
+    return 0;  
 }
