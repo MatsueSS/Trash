@@ -1,8 +1,11 @@
+https://docs.google.com/forms/d/e/1FAIpQLSdXGTM2go6QduzRNAShZjEaVZJB_lJpuBqMMezEPLqM_rzgig/viewform
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #define SIZE 6
+
+
 
 void get_random_edge(int matrix[SIZE][SIZE])
 {
